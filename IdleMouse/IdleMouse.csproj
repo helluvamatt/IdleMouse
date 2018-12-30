@@ -31,8 +31,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,14 +49,76 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Controls\AnimatedCursorPreview.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AnimationEditorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlPoint.cs" />
+    <Compile Include="Controls\DoubleBufferedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MultipleAnimationHandler.cs" />
+    <Compile Include="Controls\ToolStripRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmAnimationManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="frmAnimationManager.Designer.cs">
+      <DependentUpon>frmAnimationManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCursorManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCursorManager.Designer.cs">
+      <DependentUpon>frmCursorManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IconButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IdleMouseApplication.cs" />
+    <Compile Include="Interop\IcoCurAni\AnimationHandler.cs" />
+    <Compile Include="Interop\IcoCurAni\CursorReader.cs" />
+    <Compile Include="Interop\Win32Interop.cs" />
+    <Compile Include="Interop\RawInputHandlerWindow.cs" />
+    <Compile Include="Models\Animations.cs">
+      <DependentUpon>Animations.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CursorManager.cs" />
+    <Compile Include="Models\IdleMovementManager.cs" />
+    <Compile Include="Models\MoveEventArgs.cs" />
+    <Compile Include="Controls\MovementPreviewControl.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Easings.cs" />
+    <Compile Include="Util\EnumUtils.cs" />
+    <Compile Include="Util\FMath.cs" />
+    <Compile Include="Util\FormUtils.cs" />
+    <EmbeddedResource Include="frmAnimationManager.resx">
+      <DependentUpon>frmAnimationManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCursorManager.resx">
+      <DependentUpon>frmCursorManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -61,7 +127,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Models\Animations.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\IdleMouse.Interop.IcoCurAni.CursorModel.datasource" />
+    <None Include="Properties\DataSources\IdleMouse.Models.Animation.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -74,6 +146,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\appicon.ico" />
+    <Content Include="Assets\appicon.svg" />
+    <Content Include="Assets\Icons\16\add.png" />
+    <Content Include="Assets\Icons\16\arrow_repeat.png" />
+    <Content Include="Assets\Icons\16\arrow_right.png" />
+    <Content Include="Assets\Icons\16\arrow_rotate_anticlockwise.png" />
+    <Content Include="Assets\Icons\16\arrow_rotate_clockwise.png" />
+    <Content Include="Assets\Icons\16\arrow_undo.png" />
+    <Content Include="Assets\Icons\16\cog.png" />
+    <Content Include="Assets\Icons\16\cursor.png" />
+    <Content Include="Assets\Icons\16\delete.png" />
+    <Content Include="Assets\Icons\16\magnifier.png" />
+    <Content Include="Assets\Icons\16\stop.png" />
+    <Content Include="Assets\Icons\16\toggle.png" />
+    <Content Include="Assets\Icons\16\toggle_expand.png" />
+    <Content Include="Assets\Icons\16\user.png" />
+    <Content Include="Assets\Icons\16\user_silhouette.png" />
+    <Content Include="Assets\Icons\16\vector.png" />
+    <Content Include="Assets\Icons\16\vector_add.png" />
+    <Content Include="Assets\Icons\16\vector_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mono.Options">
+      <Version>5.3.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

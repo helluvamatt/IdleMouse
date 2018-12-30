@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Animations" targetNamespace="http://schneenet.com/IdleMouse/Animations.xsd" elementFormDefault="qualified" xmlns="http://schneenet.com/IdleMouse/Animations.xsd" xmlns:mstns="http://schneenet.com/IdleMouse/Animations.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="animations">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="animation">
+          <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="1">
+              <xs:element name="path">
+                <xs:complexType>
+                  <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                    <xs:element name="point">
+                      <xs:complexType>
+                        <xs:attribute name="x" type="xs:float" use="required" />
+                        <xs:attribute name="y" type="xs:float" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="interpolationMode" use="optional" default="Normal">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="Normal" />
+                        <xs:enumeration value="Alternate" />
+                        <xs:enumeration value="Repeat" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ellipse">
+                <xs:complexType>
+                  <xs:attribute name="cx" type="xs:float" use="required" />
+                  <xs:attribute name="cy" type="xs:float" use="required" />
+                  <xs:attribute name="rx" type="xs:float" use="required" />
+                  <xs:attribute name="ry" type="xs:float" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="interpolation" type="xs:string" use="optional" default="Linear" />
+            <xs:attribute name="reverse" type="xs:boolean" use="optional" default="0" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
